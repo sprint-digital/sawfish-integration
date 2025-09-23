@@ -28,7 +28,9 @@ return [
 composer test
 ```
 
-This is to setup sawfish integration client id and api key
+## Setup
+
+This is to setup sawfish integration, this creates the table and asks for the sawfish credentials
 
 ```bash
 php artisan sawfish:integrate
