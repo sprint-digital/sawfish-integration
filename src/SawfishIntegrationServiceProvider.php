@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace SprintDigital\SawfishIntegration;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use SprintDigital\SawfishIntegration\Commands\SawfishIntegrationCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class SawfishIntegrationServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('sawfish-integration')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            // ->hasViews()
+            ->hasMigration('create_sawfish_integration_table')
+            ->hasCommand(SawfishIntegrationCommand::class);
     }
 }
