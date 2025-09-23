@@ -5,7 +5,7 @@ namespace SprintDigital\SawfishIntegration;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Client\Response;
-use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelsSawfishIntegration;
+use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelSawfishIntegration;
 use Exception;
 
 class SawfishIntegration
@@ -17,7 +17,7 @@ class SawfishIntegration
 
     public function __construct()
     {
-        $this->sawfishIntegration = ModelsSawfishIntegration::first();
+        $this->sawfishIntegration = ModelSawfishIntegration::first();
         $this->clientId = $this->sawfishIntegration->client_id ?? null;
         $this->apiKey = $this->sawfishIntegration->api_key ?? null;
         $this->apiUrl = config('sawfish-integration.api_url', '');
