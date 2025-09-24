@@ -22,4 +22,17 @@ class SawfishIntegrationServiceProvider extends PackageServiceProvider
             ->hasMigration('create_sawfish_integration_table')
             ->hasCommand(SawfishIntegrationCommand::class);
     }
+
+    public function packageRegistered()
+    {
+        // Register the main SawfishIntegration class as singleton
+        $this->app->singleton(\SprintDigital\SawfishIntegration\SawfishIntegration::class);
+
+        // Register resource classes as singletons
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Accounts::class);
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Clients::class);
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Tokens::class);
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Invoices::class);
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Items::class);
+    }
 }

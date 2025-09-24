@@ -10,13 +10,14 @@ return new class extends Migration
     {
         if (!Schema::hasTable('sawfish_integrations')) {
             Schema::create('sawfish_integrations', function (Blueprint $table) {
-                $table->id();
+                $table->increments('id');
                 $table->string('client_id')->nullable();
-                $table->text('webhook_key')->nullable();
                 $table->text('api_key')->nullable();
-                $table->text('api_token')->nullable();
-                $table->string('account_uuid')->nullable();
-                $table->bigInteger('expires_in');
+                $table->text('webhook_key')->nullable();
+                $table->bigInteger('expires_in')->nullable();
+                $table->text('access_token')->nullable();
+                $table->text('refresh_token')->nullable();
+                $table->string('sawfish_account_uuid')->nullable();
 
                 $table->timestamps();
                 $table->softDeletes();

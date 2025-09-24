@@ -54,10 +54,6 @@ class SawfishIntegrationCommand extends Command
         }
 
         $accountId = $this->ask('Sawfish Account ID');
-        if (empty($accountId)) {
-            $this->error('Account ID is required!');
-            return self::FAILURE;
-        }
 
         // Store or update the credentials
         try {
@@ -77,8 +73,7 @@ class SawfishIntegrationCommand extends Command
             }
 
             try {
-                $sawfishIntegration = new SawfishIntegration();
-                $sawfishIntegration->generateToken();
+                SawfishIntegration::generateToken();
 
                 $this->info('Token generated successfully!');
             } catch (\Exception $e) {

@@ -19,10 +19,11 @@ class SawfishIntegration extends Model
 
     protected $fillable = [
         'client_id',
-        'webhook_key',
         'api_key',
-        'api_token',
+        'webhook_key',
         'expires_in',
-        'account_uuid',
+        'access_token',
+        'refresh_token',
+        'sawfish_account_uuid',
     ];
 }

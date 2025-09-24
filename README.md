@@ -39,15 +39,35 @@ php artisan sawfish:integrate
 ## Usage
 
 ```php
-$sawfishIntegration = new SprintDigital\SawfishIntegration();
+$sawfishIntegration = SprintDigital\SawfishIntegration();
+
+// Token management methods
 $sawfishIntegration->generateToken();
 $sawfishIntegration->refreshToken();
 $sawfishIntegration->revokeToken();
+
+// Accounts methods
 $sawfishIntegration->getAccounts();
-$sawfishIntegration->createClient();
+
+// Client methods
 $sawfishIntegration->getClients();
+$sawfishIntegration->createClient();
 $sawfishIntegration->getClientByUuids();
 $sawfishIntegration->addContactPersons();
 $sawfishIntegration->updateContactPersons();
+
+// Invoice methods
+$sawfishIntegration->getInvoices();
+$sawfishIntegration->createInvoice();
+$sawfishIntegration->updateInvoice();
+$sawfishIntegration->voidInvoice();
+$sawfishIntegration->sendInvoice();
+$sawfishIntegration->getPdfInvoiceLink();
+$sawfishIntegration->addInvoiceAttachments();
+$sawfishIntegration->deleteInvoiceAttachments();
+$sawfishIntegration->manualInvoicePayment();
+
+// Items methods
+$sawfishIntegration->getItems();
 ```
 
