@@ -3,6 +3,7 @@
 namespace SprintDigital\SawfishIntegration\Resources;
 
 use SprintDigital\SawfishIntegration\SawfishIntegration;
+use Carbon\Carbon;
 
 class Tokens extends SawfishIntegration
 {
@@ -75,4 +76,40 @@ class Tokens extends SawfishIntegration
 
         return $data;
     }
+
+    public function ensureValidToken()
+    {
+        $timeMinusMinute = $this->sawfishIntegration->expires_in ? Carbon::createFromTimestamp($this->sawfishIntegration->expires_in)->subMinute()->timestamp : null;
+
+        if ($timeMinusMinute && $this->sawfishIntegration->access_token && $this->sawfishIntegration->refresh_token && $timeMinusMinute > time()) {
+            return [
+                'token' => $this->sawfishIntegration->access_token,
+                'refresh_token' => $this->sawfishIntegration->refresh_token,
+                'expiration' => $this->sawfishIntegration->expires_in,
+                'expirationddd' => $this->sawfishIntegration->expires_in,
+            ];
+        }
+
+        $refreshToken = $this->refreshToken();
+
+        if (isset($refreshToken['status']) && $refreshToken['status'] === 'ERROR') {
+            $generateToken = $this->generateToken();
+
+            if (isset($generateToken['status']) && $generateToken['status'] === 'ERROR') {
+                $revokeToken = $this->revokeToken();
+
+                if (isset($revokeToken['status']) && $revokeToken['status'] === 'ERROR') {
+                    return $revokeToken;
+                } else {
+                    return $this->generateToken();
+                }
+            }
+
+            return $generateToken;
+        }
+
+        return $refreshToken;
+    }
+
+
 }

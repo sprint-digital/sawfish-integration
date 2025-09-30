@@ -12,9 +12,9 @@ class Items extends SawfishIntegration
      * /items?uuids={{ string_split_by_commas }}
      * @return array
      */
-    public function getItems($uuids = null)
+    public function getItems($perPage = 200, $page = 1, $uuids = null)
     {
-        if (!is_string($uuids) && !is_array($uuids)) {
+        if ($uuids && !is_string($uuids) && !is_array($uuids)) {
             throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
         }
 
@@ -25,6 +25,8 @@ class Items extends SawfishIntegration
 
         $response = $this->withTokenHeaders()->get('/items?' . http_build_query([
             'uuids' => $data,
+            'per_page' => $perPage,
+            'page' => $page,
         ]));
 
         return $this->getResponseData($response);

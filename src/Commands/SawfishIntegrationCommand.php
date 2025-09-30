@@ -30,12 +30,14 @@ class SawfishIntegrationCommand extends Command
         }
 
         // Check if credentials already exist
-        $existingIntegration = SawfishIntegrationModel::first();
+        $existingIntegration = SawfishIntegrationModel::latest()->first();
         if ($existingIntegration) {
             if (!$this->confirm('Sawfish integration already exists. Do you want to update the credentials?')) {
                 $this->info('Integration setup cancelled.');
                 return self::SUCCESS;
             }
+        } else {
+            $this->info('No Sawfish integration found. Creating new integration...');
         }
 
         // Prompt for credentials
@@ -73,9 +75,13 @@ class SawfishIntegrationCommand extends Command
             }
 
             try {
-                SawfishIntegration::generateToken();
-
-                $this->info('Token generated successfully!');
+                $token = SawfishIntegration::ensureValidToken();
+                if (isset($token['status']) && $token['status'] === 'ERROR') {
+                    $this->error('Failed to generate token: ' . $token['message']);
+                    return self::FAILURE;
+                } else {
+                    $this->info('Token generated successfully!');
+                }
             } catch (\Exception $e) {
                 $this->error('Failed to generate token: ' . $e->getMessage());
                 return self::FAILURE;

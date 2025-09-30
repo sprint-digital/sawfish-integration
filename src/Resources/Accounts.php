@@ -14,7 +14,7 @@ class Accounts extends SawfishIntegration
      * @param string|null $type Account type filter
      * @return array
      */
-    public function getAccounts($uuids = null, $type = null)
+    public function getAccounts($perPage = 200, $page = 1, $uuids = null, $type = null)
     {
         if ($uuids !== null && !is_string($uuids) && !is_array($uuids)) {
             throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
@@ -28,6 +28,8 @@ class Accounts extends SawfishIntegration
         $response = $this->withTokenHeaders()->get('/accounts?' . http_build_query([
             'uuids' => $data,
             'type' => $type,
+            'per_page' => $perPage,
+            'page' => $page,
         ]));
 
         return $this->getResponseData($response);

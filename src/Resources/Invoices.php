@@ -12,9 +12,30 @@ class Invoices extends SawfishIntegration
      * /invoices?uuids={{ string_split_by_commas }}
      * @return array
      */
-    public function getInvoices($uuids = null)
+    public function getInvoices($perPage = 200, $page = 1, $uuids = null)
     {
-        if (!is_string($uuids) && !is_array($uuids)) {
+        if ($uuids && !is_string($uuids) && !is_array($uuids)) {
+            throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
+        }
+
+        $data = $uuids;
+        if (is_array($uuids)) {
+            $data = implode(',', $uuids);
+        }
+
+        $response = $this->withTokenHeaders()->get('/invoices?' . http_build_query([
+            'uuids' => $data,
+        ]));
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Method: GET.
+     */
+    public function getInvoiceByUuid($uuids)
+    {
+        if ($uuids && !is_string($uuids) && !is_array($uuids)) {
             throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
         }
 

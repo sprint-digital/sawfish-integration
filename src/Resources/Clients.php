@@ -12,9 +12,12 @@ class Clients extends SawfishIntegration
      *
      * @return array
      */
-    public function getClients()
+    public function getClients($perPage = 200, $page = 1)
     {
-        $response = $this->withTokenHeaders()->get('/clients?' . http_build_query([]));
+        $response = $this->withTokenHeaders()->get('/clients?' . http_build_query([
+            'per_page' => $perPage,
+            'page' => $page,
+        ]));
 
         return $this->getResponseData($response);
     }
@@ -38,7 +41,7 @@ class Clients extends SawfishIntegration
      */
     public function getClientByUuids($uuids)
     {
-        if (!is_string($uuids) && !is_array($uuids)) {
+        if ($uuids && !is_string($uuids) && !is_array($uuids)) {
             throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
         }
 
