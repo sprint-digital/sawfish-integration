@@ -85,8 +85,7 @@ class Tokens extends SawfishIntegration
             return [
                 'token' => $this->sawfishIntegration->access_token,
                 'refresh_token' => $this->sawfishIntegration->refresh_token,
-                'expiration' => $this->sawfishIntegration->expires_in,
-                'expirationddd' => $this->sawfishIntegration->expires_in,
+                'expiration' => $this->sawfishIntegration->expires_in
             ];
         }
 

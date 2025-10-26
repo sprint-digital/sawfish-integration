@@ -20,6 +20,7 @@ class SawfishIntegrationServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             // ->hasViews()
             ->hasMigration('create_sawfish_integration_table')
+            ->hasMigration('create_sawfish_webhook_table')
             ->hasCommand(SawfishIntegrationCommand::class);
     }
 

@@ -22,17 +22,23 @@ class Clients extends SawfishIntegration
         return $this->getResponseData($response);
     }
 
-    /**
-     * Method: POST.
-     */
-    public function createClient(array $data)
+    public function getClientsByProviderUuids($uuids = null, $perPage = 200, $page = 1)
     {
-        $response = $this->withTokenHeaders()->post('/clients', $data);
-
-        if (!$response->ok()) {
-            $message = $response->json('message') ?? $response->reason();
-            return $message;
+        if ($uuids && !is_string($uuids) && !is_array($uuids)) {
+            throw new \InvalidArgumentException('The $uuids parameter must be a string or an array.');
         }
+
+        $data = $uuids;
+        if (is_array($uuids)) {
+            $data = implode(',', $uuids);
+        }
+
+        $response = $this->withTokenHeaders()->get('/clients?' . http_build_query([
+            'accounting_provider_ids' => $data,
+            'per_page' => $perPage,
+            'page' => $page,
+        ]));
+
         return $this->getResponseData($response);
     }
 
@@ -54,6 +60,20 @@ class Clients extends SawfishIntegration
             'uuids' => $data,
         ]));
 
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Method: POST.
+     */
+    public function createClient(array $data)
+    {
+        $response = $this->withTokenHeaders()->post('/clients', $data);
+
+        if (!$response->ok()) {
+            $message = $response->json('message') ?? $response->reason();
+            return $message;
+        }
         return $this->getResponseData($response);
     }
 

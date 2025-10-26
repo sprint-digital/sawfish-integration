@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        if (!Schema::hasTable('sawfish_webhooks')) {
+            Schema::create('sawfish_webhooks', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('total')->nullable();
+                $table->string('metadata')->nullable();
+                $table->dateTime('generated_at')->nullable();
+                $table->text('webhook_data')->nullable();
+
+                $table->string('resource_uuid')->nullable();
+                $table->string('event_category')->nullable();
+                $table->dateTime('processed_at')->nullable();
+                $table->text('processed_response')->nullable();
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('sawfish_webhooks');
+    }
+};

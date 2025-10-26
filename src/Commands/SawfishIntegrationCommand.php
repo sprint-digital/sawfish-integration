@@ -18,14 +18,48 @@ class SawfishIntegrationCommand extends Command
         $this->info('Setting up Sawfish Integration...');
 
         // Run the migration
-        $this->info('Running migration for sawfish_integrations table...');
+        $this->info('Running migration tables...');
         try {
-            Artisan::call('migrate', [
-                '--path' => 'database/migrations/create_sawfish_integration_table.php.stub'
-            ]);
+            $migrations = [
+                'create_sawfish_integration_table.php',
+                'create_sawfish_webhook_table.php',
+            ];
+            $currentDate = date('Y_m_d_His');
+
+            foreach($migrations as $migration) {
+                $stubPath = 'packages/sprint-digital/sawfish-integration/database/migrations/'. $migration.'.stub';
+                $migrationPath = 'database/migrations/'.$currentDate.'_'.$migration;
+                if (!file_exists($stubPath)) {
+                    $this->error('Stub file not found: ' . $stubPath);
+                    return self::FAILURE;
+                }
+
+                // check here if the migration path without the current date already exists
+                // check here if file exists file name is like create_sawfish_integration_table.php
+
+                // loop files under database/migrations check if filenam like $migration, copy the file if not exists
+                $files = glob('database/migrations/*.php');
+                $found = false;
+                foreach($files as $file) {
+                    if (strpos($file, $migration) !== false) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    if (!copy($stubPath, $migrationPath)) {
+                        $this->error('Failed to copy stub file to migrations directory');
+                        return self::FAILURE;
+                    }
+                }
+            }
+
+            Artisan::call('migrate');
             $this->info('Migration completed successfully!');
         } catch (\Exception $e) {
             $this->error('Migration failed: ' . $e->getMessage());
+            $this->error('Error details: ' . $e->getFile() . ':' . $e->getLine());
             return self::FAILURE;
         }
 
@@ -56,13 +90,15 @@ class SawfishIntegrationCommand extends Command
         }
 
         $accountId = $this->ask('Sawfish Account ID');
+        $webhookKey = $this->ask('Sawfish Webhook Key');
 
         // Store or update the credentials
         try {
             $integrationData = [
                 'client_id' => $clientId,
                 'api_key' => $apiKey,
-                'sawfish_account_uuid' => $accountId,
+                'sawfish_account_uuid' => $accountId ?? null,
+                'webhook_key' => $webhookKey ?? null,
                 'expires_in' => 0, // Will be updated when token is generated
             ];
 
@@ -82,16 +118,26 @@ class SawfishIntegrationCommand extends Command
                 } else {
                     $this->info('Token generated successfully!');
                 }
+            } catch (\Illuminate\Http\Client\RequestException $e) {
+                $this->error('Network error while generating token: ' . $e->getMessage());
+                $this->error('Please check your internet connection and API endpoint.');
+                return self::FAILURE;
             } catch (\Exception $e) {
                 $this->error('Failed to generate token: ' . $e->getMessage());
+                $this->error('Error details: ' . $e->getFile() . ':' . $e->getLine());
                 return self::FAILURE;
             }
 
             $this->info('Sawfish integration setup completed!');
             return self::SUCCESS;
 
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->error('Database error while saving credentials: ' . $e->getMessage());
+            $this->error('Please check your database connection and try again.');
+            return self::FAILURE;
         } catch (\Exception $e) {
             $this->error('Failed to save credentials: ' . $e->getMessage());
+            $this->error('Error details: ' . $e->getFile() . ':' . $e->getLine());
             return self::FAILURE;
         }
     }

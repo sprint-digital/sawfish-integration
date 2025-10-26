@@ -5,6 +5,7 @@ namespace SprintDigital\SawfishIntegration;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelSawfishIntegration;
+use SprintDigital\SawfishIntegration\Resources\SawfishWebhook;
 use SprintDigital\SawfishIntegration\Resources\Accounts;
 use SprintDigital\SawfishIntegration\Resources\Clients;
 use SprintDigital\SawfishIntegration\Resources\Tokens;
@@ -100,8 +101,9 @@ class SawfishIntegration
 
             // Clients resource methods
             'getClients' => Clients::class,
-            'createClient' => Clients::class,
+            'getClientsByProviderUuids' => Clients::class,
             'getClientByUuids' => Clients::class,
+            'createClient' => Clients::class,
             'addContactPersons' => Clients::class,
             'updateContactPersons' => Clients::class,
 
@@ -114,6 +116,7 @@ class SawfishIntegration
             // Invoices resource methods
             'getInvoices' => Invoices::class,
             'getInvoiceByUuid' => Invoices::class,
+            'getInvoicesByProviderUuids' => Invoices::class,
             'createInvoice' => Invoices::class,
             'updateInvoice' => Invoices::class,
             'voidInvoice' => Invoices::class,
@@ -125,6 +128,9 @@ class SawfishIntegration
 
             // Items resource methods
             'getItems' => Items::class,
+
+            // SawfishWebhook resource methods
+            'saveWebhook' => SawfishWebhook::class,
         ];
 
         if (isset($methodMap[$method])) {
