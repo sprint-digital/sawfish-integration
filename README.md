@@ -21,6 +21,7 @@ return [
     'api_url' => env('SAWFISH_API_URL'),
 ];
 ```
+The default SAWFISH_API_URL is https://api.sawfish.com.au/api/v2/accounting, but if you want to use the staging URL publish the config then add this to your .env SAWFISH_API_URL=https://api.sawfish.2mm.io/api/v2/accounting
 
 ## Testing
 
@@ -39,35 +40,35 @@ php artisan sawfish:integrate
 ## Usage
 
 ```php
-$sawfishIntegration = SprintDigital\SawfishIntegration();
+use SprintDigital\SawfishIntegration\SawfishIntegration;
 
 // Token management methods
-$sawfishIntegration->generateToken();
-$sawfishIntegration->refreshToken();
-$sawfishIntegration->revokeToken();
+SawfishIntegration::generateToken();
+SawfishIntegration::refreshToken();
+SawfishIntegration::revokeToken();
 
 // Accounts methods
-$sawfishIntegration->getAccounts();
+SawfishIntegration::getAccounts();
 
 // Client methods
-$sawfishIntegration->getClients();
-$sawfishIntegration->createClient();
-$sawfishIntegration->getClientByUuids();
-$sawfishIntegration->addContactPersons();
-$sawfishIntegration->updateContactPersons();
+SawfishIntegration::getClients();
+SawfishIntegration::createClient();
+SawfishIntegration::getClientByUuids();
+SawfishIntegration::addContactPersons();
+SawfishIntegration::updateContactPersons();
 
 // Invoice methods
-$sawfishIntegration->getInvoices();
-$sawfishIntegration->createInvoice();
-$sawfishIntegration->updateInvoice();
-$sawfishIntegration->voidInvoice();
-$sawfishIntegration->sendInvoice();
-$sawfishIntegration->getPdfInvoiceLink();
-$sawfishIntegration->addInvoiceAttachments();
-$sawfishIntegration->deleteInvoiceAttachments();
-$sawfishIntegration->manualInvoicePayment();
+SawfishIntegration::getInvoices();
+SawfishIntegration::createInvoice();
+SawfishIntegration::updateInvoice();
+SawfishIntegration::voidInvoice();
+SawfishIntegration::sendInvoice();
+SawfishIntegration::getPdfInvoiceLink();
+SawfishIntegration::addInvoiceAttachments();
+SawfishIntegration::deleteInvoiceAttachments();
+SawfishIntegration::manualInvoicePayment();
 
 // Items methods
-$sawfishIntegration->getItems();
+SawfishIntegration::getItems();
 ```
 
