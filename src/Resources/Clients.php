@@ -69,14 +69,17 @@ class Clients extends SawfishIntegration
     public function createClient(array $data)
     {
         $response = $this->withTokenHeaders()->post('/clients', $data);
-
-        if (!$response->ok()) {
-            $message = $response->json('message') ?? $response->reason();
-            return $message;
-        }
         return $this->getResponseData($response);
     }
 
+    /**
+     * Method: PUT.
+     */
+    public function updateClient(string $uuid, array $data)
+    {
+        $response = $this->withTokenHeaders()->put('/clients/' . $uuid, $data);
+        return $this->getResponseData($response);
+    }
 
     /**
      * Method: POST.
