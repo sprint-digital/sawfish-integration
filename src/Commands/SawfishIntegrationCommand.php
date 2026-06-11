@@ -27,7 +27,7 @@ class SawfishIntegrationCommand extends Command
             $currentDate = date('Y_m_d_His');
 
             foreach($migrations as $migration) {
-                $stubPath = 'packages/sprint-digital/sawfish-integration/database/migrations/'. $migration.'.stub';
+                $stubPath = base_path('vendor/sprint-digital/sawfish-integration/database/migrations/' . $migration . '.stub');
                 $migrationPath = 'database/migrations/'.$currentDate.'_'.$migration;
                 if (!file_exists($stubPath)) {
                     $this->error('Stub file not found: ' . $stubPath);
@@ -77,20 +77,20 @@ class SawfishIntegrationCommand extends Command
         // Prompt for credentials
         $this->info('Please provide your Sawfish credentials:');
 
-        $clientId = $this->ask('Sawfish Client ID');
+        $clientId = $this->ask('Sawfish Client ID (required)');
         if (empty($clientId)) {
             $this->error('Client ID is required!');
             return self::FAILURE;
         }
 
-        $apiKey = $this->secret('Sawfish API Key');
+        $apiKey = $this->secret('Sawfish API Key (required)');
         if (empty($apiKey)) {
             $this->error('API Key is required!');
             return self::FAILURE;
         }
 
-        $accountId = $this->ask('Sawfish Account ID');
-        $webhookKey = $this->ask('Sawfish Webhook Key');
+        $accountId = $this->ask('Sawfish Account ID (optional)');
+        $webhookKey = $this->ask('Sawfish Webhook Key (optional)');
 
         // Store or update the credentials
         try {

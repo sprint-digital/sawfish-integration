@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Response;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelSawfishIntegration;
 use SprintDigital\SawfishIntegration\Resources\SawfishWebhook;
 use SprintDigital\SawfishIntegration\Resources\Accounts;
+use SprintDigital\SawfishIntegration\Resources\Bills;
 use SprintDigital\SawfishIntegration\Resources\Clients;
 use SprintDigital\SawfishIntegration\Resources\Tokens;
 use SprintDigital\SawfishIntegration\Resources\Invoices;
@@ -69,7 +70,7 @@ class SawfishIntegration
             ];
         }
 
-        if(!$response->json('pagination') && $response->json('data')) {
+        if (!$response->json('pagination') && $response->json('data')) {
             return $response->json('data');
         } else {
             return $response->json();
@@ -101,6 +102,7 @@ class SawfishIntegration
 
             // Clients resource methods
             'getClients' => Clients::class,
+            'getSuppliers' => Clients::class,
             'getClientsByProviderUuids' => Clients::class,
             'getClientByUuids' => Clients::class,
             'createClient' => Clients::class,
@@ -129,6 +131,14 @@ class SawfishIntegration
 
             // Items resource methods
             'getItems' => Items::class,
+
+            // Bills resource methods
+            'getBills' => Bills::class,
+            'getBillByUuid' => Bills::class,
+            'getBillsByProviderUuid' => Bills::class,
+            'createBill' => Bills::class,
+            'updateBill' => Bills::class,
+            'voidBill' => Bills::class,
 
             // SawfishWebhook resource methods
             'saveWebhook' => SawfishWebhook::class,

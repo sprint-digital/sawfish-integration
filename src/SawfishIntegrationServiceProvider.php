@@ -35,5 +35,6 @@ class SawfishIntegrationServiceProvider extends PackageServiceProvider
         $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Tokens::class);
         $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Invoices::class);
         $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Items::class);
+        $this->app->singleton(\SprintDigital\SawfishIntegration\Resources\Bills::class);
     }
 }

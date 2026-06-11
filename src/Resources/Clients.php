@@ -6,7 +6,6 @@ use SprintDigital\SawfishIntegration\SawfishIntegration;
 
 class Clients extends SawfishIntegration
 {
-
     /**
      * Get clients from Sawfish API
      *
@@ -15,6 +14,22 @@ class Clients extends SawfishIntegration
     public function getClients($perPage = 200, $page = 1)
     {
         $response = $this->withTokenHeaders()->get('/clients?' . http_build_query([
+            'per_page' => $perPage,
+            'page' => $page,
+        ]));
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Get suppliers from Sawfish API
+     *
+     * @return array
+     */
+    public function getSuppliers($perPage = 200, $page = 1)
+    {
+        $response = $this->withTokenHeaders()->get('/clients?' . http_build_query([
+            'is_supplier' => true,
             'per_page' => $perPage,
             'page' => $page,
         ]));
