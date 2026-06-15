@@ -2,9 +2,10 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
-## New Bill & Supplier - 2026-06-15
+## v1.1.0 - 2026-06-11
 
-**Full Changelog**: https://github.com/sprint-digital/sawfish-integration/compare/v1.0.2...v1.1.0
+- Add `Bills` resource with `getBills`, `getBillByUuid`, `getBillsByProviderUuid`, `createBill`, `updateBill`, `voidBill`
+- Add `getSupplier` method to `Clients` resource
 
 ## v1.0.2 - 2026-05-11
 
