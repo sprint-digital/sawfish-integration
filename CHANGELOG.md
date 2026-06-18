@@ -2,6 +2,11 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v1.2.0 - 2026-06-18
+
+- Add `verifyClient` method to `Clients` resource (`GET /clients/verify`) to check for an existing client by matching name, ABN, or BSB + account number
+- Register `verifyClient` in the `SawfishIntegration` method map so it is callable via the facade/static API
+
 ## v1.1.0 - 2026-06-11
 
 - Add `Bills` resource with `getBills`, `getBillByUuid`, `getBillsByProviderUuid`, `createBill`, `updateBill`, `voidBill`
