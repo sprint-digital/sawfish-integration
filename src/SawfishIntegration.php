@@ -105,6 +105,7 @@ class SawfishIntegration
             'getSuppliers' => Clients::class,
             'getClientsByProviderUuids' => Clients::class,
             'getClientByUuids' => Clients::class,
+            'verifyClient' => Clients::class,
             'createClient' => Clients::class,
             'updateClient' => Clients::class,
             'addContactPersons' => Clients::class,
