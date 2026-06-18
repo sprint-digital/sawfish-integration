@@ -79,6 +79,17 @@ class Clients extends SawfishIntegration
     }
 
     /**
+     * Verify if a client with matching name, abn, or bsb + account number exists.
+     * Method: GET.
+     */
+    public function verifyClient(array $data)
+    {
+        $response = $this->withTokenHeaders()->get('/clients/verify?' . http_build_query($data));
+
+        return $this->getResponseData($response);
+    }
+
+    /**
      * Method: POST.
      */
     public function createClient(array $data)
