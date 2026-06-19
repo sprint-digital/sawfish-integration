@@ -2,6 +2,11 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## Handle specific client and Invoice sent - 2026-06-19
+
+This handles specific Sawfish client or get the latest sawfish client integration.
+This also updates the send invoice to allow sending to specific email recipients
+
 ## New Verify Method - 2026-06-18
 
 - Add `verifyClient` method to check for an existing client by matching name, ABN, or BSB + account number
