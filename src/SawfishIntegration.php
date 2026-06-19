@@ -84,8 +84,10 @@ class SawfishIntegration
 
             // Clients resource methods
             'getClients' => Clients::class,
+            'getSuppliers' => Clients::class,
             'getClientsByProviderUuids' => Clients::class,
             'getClientByUuids' => Clients::class,
+            'verifyClient' => Clients::class,
             'createClient' => Clients::class,
             'updateClient' => Clients::class,
             'addContactPersons' => Clients::class,
@@ -112,6 +114,14 @@ class SawfishIntegration
 
             // Items resource methods
             'getItems' => Items::class,
+
+            // Bills resource methods
+            'getBills' => Bills::class,
+            'getBillByUuid' => Bills::class,
+            'getBillsByProviderUuid' => Bills::class,
+            'createBill' => Bills::class,
+            'updateBill' => Bills::class,
+            'voidBill' => Bills::class,
 
             // SawfishWebhook resource methods
             'saveWebhook' => SawfishWebhook::class,
