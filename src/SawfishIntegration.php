@@ -7,7 +7,6 @@ use Illuminate\Http\Client\Response;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelSawfishIntegration;
 use SprintDigital\SawfishIntegration\Resources\SawfishWebhook;
 use SprintDigital\SawfishIntegration\Resources\Accounts;
-use SprintDigital\SawfishIntegration\Resources\Bills;
 use SprintDigital\SawfishIntegration\Resources\Clients;
 use SprintDigital\SawfishIntegration\Resources\Tokens;
 use SprintDigital\SawfishIntegration\Resources\Invoices;
@@ -20,9 +19,9 @@ class SawfishIntegration
     protected string $clientId;
     protected string $apiKey;
 
-    public function __construct()
+    public function __construct($sawfishIntegrationId = null)
     {
-        $this->sawfishIntegration = ModelSawfishIntegration::latest()->first();
+        $this->sawfishIntegration = ModelSawfishIntegration::where('id', $sawfishIntegrationId)->first() ?? ModelSawfishIntegration::latest()->first();
         $this->clientId = $this->sawfishIntegration->client_id ?? '';
         $this->apiKey = $this->sawfishIntegration->api_key ?? '';
         $this->apiUrl = config('sawfish-integration.api_url');
@@ -54,7 +53,7 @@ class SawfishIntegration
 
     protected function validateApiToken()
     {
-        self::ensureValidToken();
+        $this->ensureValidToken();
         $this->sawfishIntegration->refresh();
         return $this->sawfishIntegration->access_token;
     }
@@ -70,33 +69,16 @@ class SawfishIntegration
             ];
         }
 
-        if (!$response->json('pagination') && $response->json('data')) {
+        if(!$response->json('pagination') && $response->json('data')) {
             return $response->json('data');
         } else {
             return $response->json();
         }
     }
 
-    /**
-     * Handle static method calls and route them to appropriate resource classes
-     *
-     * @param string $method
-     * @param array $arguments
-     * @return mixed
-     */
-    public static function __callStatic($method, $arguments)
+    protected function getMethodMap(): array
     {
-        // Check if SawfishIntegration instance exists and has required data
-        $sawfishIntegration = ModelSawfishIntegration::latest()->first();
-        if (!$sawfishIntegration || !$sawfishIntegration->client_id || !$sawfishIntegration->api_key) {
-            return [
-                'status' => 'ERROR',
-                'message' => 'No SawfishIntegration setup found or configuration is incomplete',
-            ];
-        }
-
-        // Map methods to their corresponding resource classes
-        $methodMap = [
+        return [
             // Accounts resource methods
             'getAccounts' => Accounts::class,
 
@@ -144,14 +126,49 @@ class SawfishIntegration
             // SawfishWebhook resource methods
             'saveWebhook' => SawfishWebhook::class,
         ];
+    }
+
+    protected function configurationError(): array
+    {
+        return [
+            'status' => 'ERROR',
+            'message' => 'No SawfishIntegration setup found or configuration is incomplete',
+        ];
+    }
+
+    /**
+     * Route instance method calls to the appropriate resource class.
+     *
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (!$this->sawfishIntegration || !$this->sawfishIntegration->client_id || !$this->sawfishIntegration->api_key) {
+            return $this->configurationError();
+        }
+
+        $methodMap = $this->getMethodMap();
 
         if (isset($methodMap[$method])) {
-            $resourceClass = $methodMap[$method];
-            $resource = app($resourceClass);
+            $resource = new $methodMap[$method]($this->sawfishIntegration->id);
 
             return call_user_func_array([$resource, $method], $arguments);
         }
 
         throw new \BadMethodCallException("Method {$method} does not exist on " . static::class);
+    }
+
+    /**
+     * Route static method calls through a default instance (latest integration).
+     *
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        return (new static())->$method(...$arguments);
     }
 }

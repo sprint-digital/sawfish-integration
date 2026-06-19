@@ -106,9 +106,9 @@ class Invoices extends SawfishIntegration
     /**
      * Method: POST.
      */
-    public function sendInvoice(string $uuid)
+    public function sendInvoice(string $uuid, array $data = [])
     {
-        $response = $this->withTokenHeaders()->post('/invoices/' . $uuid . '/send');
+        $response = $this->withTokenHeaders()->post('/invoices/' . $uuid . '/send', $data);
 
         return $this->getResponseData($response);
     }
