@@ -19,12 +19,15 @@ class SawfishIntegration
     protected string $clientId;
     protected string $apiKey;
 
-    public function __construct($sawfishIntegrationId = null)
+    public function __construct(?string $clientId = null)
     {
-        $this->sawfishIntegration = ModelSawfishIntegration::where('id', $sawfishIntegrationId)->first() ?? ModelSawfishIntegration::latest()->first();
-        $this->clientId = $this->sawfishIntegration->client_id ?? '';
-        $this->apiKey = $this->sawfishIntegration->api_key ?? '';
-        $this->apiUrl = config('sawfish-integration.api_url');
+        $this->sawfishIntegration = ($clientId
+            ? ModelSawfishIntegration::where('client_id', $clientId)->first()
+            : null) ?? ModelSawfishIntegration::latest()->first();
+
+        $this->clientId = $this->sawfishIntegration?->client_id ?? '';
+        $this->apiKey = $this->sawfishIntegration?->api_key ?? '';
+        $this->apiUrl = config('sawfish-integration.api_url') ?? '';
     }
 
     protected function withTokenHeaders()
