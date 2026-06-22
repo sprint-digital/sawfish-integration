@@ -2,6 +2,12 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v1.3.1 - 2026-06-22
+
+### What's Changed
+
+* handle specific client by passing the client_id
+
 ## Handle specific client and Invoice sent - 2026-06-19
 
 This handles specific Sawfish client or get the latest sawfish client integration.
