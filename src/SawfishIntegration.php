@@ -21,9 +21,11 @@ class SawfishIntegration
 
     public function __construct(?string $clientId = null)
     {
-        $this->sawfishIntegration = ($clientId
-            ? ModelSawfishIntegration::where('client_id', $clientId)->first()
-            : null) ?? ModelSawfishIntegration::latest()->first();
+        if(!$clientId) {
+            $this->sawfishIntegration = ModelSawfishIntegration::latest()->first();
+        } else {
+            $this->sawfishIntegration = ModelSawfishIntegration::where('client_id', $clientId)->first();
+        }
 
         $this->clientId = $this->sawfishIntegration?->client_id ?? '';
         $this->apiKey = $this->sawfishIntegration?->api_key ?? '';
@@ -155,7 +157,7 @@ class SawfishIntegration
         $methodMap = $this->getMethodMap();
 
         if (isset($methodMap[$method])) {
-            $resource = new $methodMap[$method]($this->sawfishIntegration->id);
+            $resource = new $methodMap[$method]($this->sawfishIntegration->client_id);
 
             return call_user_func_array([$resource, $method], $arguments);
         }
