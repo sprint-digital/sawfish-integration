@@ -134,6 +134,34 @@ class Invoices extends SawfishIntegration
     }
 
     /**
+     * Method: POST (multipart).
+     *
+     * @param  array<int, array{name: string, contents: string, content_type?: string}>  $files
+     */
+    public function addInvoiceAttachmentsFromFiles(string $uuid, array $files)
+    {
+        $request = $this->withTokenHeaders();
+
+        foreach ($files as $file) {
+            $headers = [];
+            if (!empty($file['content_type'])) {
+                $headers['Content-Type'] = $file['content_type'];
+            }
+
+            $request = $request->attach(
+                'media[]',
+                $file['contents'],
+                $file['name'],
+                $headers
+            );
+        }
+
+        $response = $request->post('/invoices/' . $uuid . '/attachments');
+
+        return $this->getResponseData($response);
+    }
+
+    /**
      * Method: DELETE.
      */
     public function deleteInvoiceAttachments(string $uuid, string $attachmentId)

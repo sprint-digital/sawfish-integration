@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Response;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as ModelSawfishIntegration;
 use SprintDigital\SawfishIntegration\Resources\SawfishWebhook;
 use SprintDigital\SawfishIntegration\Resources\Accounts;
+use SprintDigital\SawfishIntegration\Resources\Bills;
 use SprintDigital\SawfishIntegration\Resources\Clients;
 use SprintDigital\SawfishIntegration\Resources\Tokens;
 use SprintDigital\SawfishIntegration\Resources\Invoices;
@@ -114,6 +115,7 @@ class SawfishIntegration
             'sendInvoice' => Invoices::class,
             'getPdfInvoiceLink' => Invoices::class,
             'addInvoiceAttachments' => Invoices::class,
+            'addInvoiceAttachmentsFromFiles' => Invoices::class,
             'deleteInvoiceAttachments' => Invoices::class,
             'manualInvoicePayment' => Invoices::class,
 
