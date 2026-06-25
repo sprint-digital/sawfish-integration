@@ -2,6 +2,10 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## Added updates for adding invoice files - 2026-06-25
+
+Added addInvoiceAttachmentsFromFiles
+
 ## v1.3.1 - 2026-06-22
 
 ### What's Changed
