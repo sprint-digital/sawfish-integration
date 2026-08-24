@@ -2,6 +2,12 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## New Tracking Code - 2026-08-24
+
+- Add `TrackingCategories` resource with methods: `getTrackingCategories`, `getTrackingCategoryByUuid`, `createTrackingCategory`, `updateTrackingCategory`, `deleteTrackingCategory`, `createTrackingCategoryOption`, `updateTrackingCategoryOption`, `deleteTrackingCategoryOption`
+- Register `TrackingCategories` methods in the `SawfishIntegration` method map so they are callable via the facade/static API
+- Fix migration bug in `tests/TestCase.php` where the `sawfish_integrations` table was never created (second `include` overwrote `$migration` before `->up()` ran)
+
 ## v1.4.0 - 2026-08-24
 
 - Add `TrackingCategories` resource with methods: `getTrackingCategories`, `getTrackingCategoryByUuid`, `createTrackingCategory`, `updateTrackingCategory`, `deleteTrackingCategory`, `createTrackingCategoryOption`, `updateTrackingCategoryOption`, `deleteTrackingCategoryOption`
