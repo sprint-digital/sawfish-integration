@@ -12,6 +12,7 @@ use SprintDigital\SawfishIntegration\Resources\Clients;
 use SprintDigital\SawfishIntegration\Resources\Tokens;
 use SprintDigital\SawfishIntegration\Resources\Invoices;
 use SprintDigital\SawfishIntegration\Resources\Items;
+use SprintDigital\SawfishIntegration\Resources\TrackingCategories;
 
 class SawfishIntegration
 {
@@ -132,6 +133,16 @@ class SawfishIntegration
 
             // SawfishWebhook resource methods
             'saveWebhook' => SawfishWebhook::class,
+
+            // TrackingCategories resource methods
+            'getTrackingCategories' => TrackingCategories::class,
+            'getTrackingCategoryByUuid' => TrackingCategories::class,
+            'createTrackingCategory' => TrackingCategories::class,
+            'updateTrackingCategory' => TrackingCategories::class,
+            'deleteTrackingCategory' => TrackingCategories::class,
+            'createTrackingCategoryOption' => TrackingCategories::class,
+            'updateTrackingCategoryOption' => TrackingCategories::class,
+            'deleteTrackingCategoryOption' => TrackingCategories::class,
         ];
     }
 
