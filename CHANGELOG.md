@@ -2,6 +2,17 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v1.4.2 Upload attachments for a bill - 2026-08-26
+
+### Changelog
+
+#### [1.4.2] – 2026-08-26
+
+##### Added
+
+- New endpoint: `addBillAttachments`
+- New endpoint: `addBillAttachmentsFromFiles`
+
 ## New Tracking Code - 2026-08-24
 
 - Add `TrackingCategories` resource with methods: `getTrackingCategories`, `getTrackingCategoryByUuid`, `createTrackingCategory`, `updateTrackingCategory`, `deleteTrackingCategory`, `createTrackingCategoryOption`, `updateTrackingCategoryOption`, `deleteTrackingCategoryOption`
