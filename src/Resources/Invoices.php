@@ -106,9 +106,9 @@ class Invoices extends SawfishIntegration
     /**
      * Method: POST.
      */
-    public function sendInvoice(string $uuid)
+    public function sendInvoice(string $uuid, array $data = [])
     {
-        $response = $this->withTokenHeaders()->post('/invoices/' . $uuid . '/send');
+        $response = $this->withTokenHeaders()->post('/invoices/' . $uuid . '/send', $data);
 
         return $this->getResponseData($response);
     }
@@ -129,6 +129,34 @@ class Invoices extends SawfishIntegration
     public function addInvoiceAttachments(string $uuid, array $data)
     {
         $response = $this->withTokenHeaders()->post('/invoices/' . $uuid . '/attachments', $data);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Method: POST (multipart).
+     *
+     * @param  array<int, array{name: string, contents: string, content_type?: string}>  $files
+     */
+    public function addInvoiceAttachmentsFromFiles(string $uuid, array $files)
+    {
+        $request = $this->withTokenHeaders();
+
+        foreach ($files as $file) {
+            $headers = [];
+            if (!empty($file['content_type'])) {
+                $headers['Content-Type'] = $file['content_type'];
+            }
+
+            $request = $request->attach(
+                'media[]',
+                $file['contents'],
+                $file['name'],
+                $headers
+            );
+        }
+
+        $response = $request->post('/invoices/' . $uuid . '/attachments');
 
         return $this->getResponseData($response);
     }

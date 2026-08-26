@@ -2,6 +2,38 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## New Tracking Code - 2026-08-24
+
+- Add `TrackingCategories` resource with methods: `getTrackingCategories`, `getTrackingCategoryByUuid`, `createTrackingCategory`, `updateTrackingCategory`, `deleteTrackingCategory`, `createTrackingCategoryOption`, `updateTrackingCategoryOption`, `deleteTrackingCategoryOption`
+- Register `TrackingCategories` methods in the `SawfishIntegration` method map so they are callable via the facade/static API
+- Fix migration bug in `tests/TestCase.php` where the `sawfish_integrations` table was never created (second `include` overwrote `$migration` before `->up()` ran)
+
+## v1.4.0 - 2026-08-24
+
+- Add `TrackingCategories` resource with methods: `getTrackingCategories`, `getTrackingCategoryByUuid`, `createTrackingCategory`, `updateTrackingCategory`, `deleteTrackingCategory`, `createTrackingCategoryOption`, `updateTrackingCategoryOption`, `deleteTrackingCategoryOption`
+- Register `TrackingCategories` methods in the `SawfishIntegration` method map so they are callable via the facade/static API
+- Fix migration bug in `tests/TestCase.php` where the `sawfish_integrations` table was never created (second `include` overwrote `$migration` before `->up()` ran)
+
+## Added updates for adding invoice files - 2026-06-25
+
+Added addInvoiceAttachmentsFromFiles
+
+## v1.3.1 - 2026-06-22
+
+### What's Changed
+
+* handle specific client by passing the client_id
+
+## Handle specific client and Invoice sent - 2026-06-19
+
+This handles specific Sawfish client or get the latest sawfish client integration.
+This also updates the send invoice to allow sending to specific email recipients
+
+## New Verify Method - 2026-06-18
+
+- Add `verifyClient` method to check for an existing client by matching name, ABN, or BSB + account number
+- Register `verifyClient` in the `SawfishIntegration` method map so it is callable via the facade/static API
+
 ## v1.2.0 - 2026-06-18
 
 - Add `verifyClient` method to `Clients` resource (`GET /clients/verify`) to check for an existing client by matching name, ABN, or BSB + account number

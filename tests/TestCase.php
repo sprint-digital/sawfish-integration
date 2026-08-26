@@ -29,8 +29,10 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         // Run migrations for testing
-        $migration = include __DIR__ . '/../database/migrations/create_sawfish_integration_table.php.stub';
-        $migration = include __DIR__ . '/../database/migrations/create_sawfish_webhook_table.php.stub';
-        $migration->up();
+        $integrationMigration = include __DIR__ . '/../database/migrations/create_sawfish_integration_table.php.stub';
+        $integrationMigration->up();
+
+        $webhookMigration = include __DIR__ . '/../database/migrations/create_sawfish_webhook_table.php.stub';
+        $webhookMigration->up();
     }
 }
