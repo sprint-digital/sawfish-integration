@@ -92,4 +92,42 @@ class Bills extends SawfishIntegration
             'status' => 'Cancelled',
         ]));
     }
+
+    /**
+     * Method: POST.
+     */
+    public function addBillAttachments(string $uuid, array $data)
+    {
+        $response = $this->withTokenHeaders()->post('/bills/' . $uuid . '/attachments', $data);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Method: POST (multipart).
+     *
+     * @param  array<int, array{name: string, contents: string, content_type?: string}>  $files
+     */
+    public function addBillAttachmentsFromFiles(string $uuid, array $files)
+    {
+        $request = $this->withTokenHeaders();
+
+        foreach ($files as $file) {
+            $headers = [];
+            if (!empty($file['content_type'])) {
+                $headers['Content-Type'] = $file['content_type'];
+            }
+
+            $request = $request->attach(
+                'media[]',
+                $file['contents'],
+                $file['name'],
+                $headers
+            );
+        }
+
+        $response = $request->post('/bills/' . $uuid . '/attachments');
+
+        return $this->getResponseData($response);
+    }
 }

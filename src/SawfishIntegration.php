@@ -130,6 +130,8 @@ class SawfishIntegration
             'createBill' => Bills::class,
             'updateBill' => Bills::class,
             'voidBill' => Bills::class,
+            'addBillAttachments' => Bills::class,
+            'addBillAttachmentsFromFiles' => Bills::class,
 
             // SawfishWebhook resource methods
             'saveWebhook' => SawfishWebhook::class,
