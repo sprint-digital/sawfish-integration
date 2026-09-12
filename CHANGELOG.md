@@ -2,6 +2,18 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v1.4.3 Invoice themes endpoint - 2026-09-10
+
+### Changelog
+
+#### [1.4.3] – 2026-09-10
+
+##### Added
+
+- New endpoint: `getInvoiceThemes` — retrieves the authenticated organisation's
+  invoice themes, each with its effective `line_item_display`, plus the
+  organisation-level `default_display_mode`.
+
 ## v1.4.2 Upload attachments for a bill - 2026-08-26
 
 ### Changelog

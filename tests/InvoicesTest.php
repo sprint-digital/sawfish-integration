@@ -1038,3 +1038,56 @@ describe('HTTP headers and authentication', function () {
         });
     });
 });
+
+describe('getInvoiceThemes method', function () {
+    it('gets the organisation invoice themes with the integration token', function () {
+        $themes = [
+            'themes' => [
+                [
+                    'id' => 42,
+                    'name' => 'Consolidated quote',
+                    'is_default' => true,
+                    'settings' => ['line_item_display' => 'consolidated'],
+                ],
+            ],
+            'default_display_mode' => 'consolidated',
+        ];
+
+        // The real endpoint wraps its payload in {status, data}. Faking a bare
+        // body would take getResponseData()'s fall-through branch instead of the
+        // unwrapping branch, so the unwrap would go untested.
+        Http::fake([
+            $this->apiUrl . '/invoice-themes' => Http::response([
+                'status' => 'SUCCESS',
+                'data' => $themes,
+            ], 200),
+        ]);
+
+        expect($this->invoices->getInvoiceThemes())->toBe($themes);
+
+        Http::assertSent(function ($request) {
+            return $request->url() === $this->apiUrl . '/invoice-themes'
+                && $request->method() === 'GET'
+                && $request->header('x-client-id')[0] === $this->clientId
+                && $request->header('x-jwt-token')[0] === 'test-access-token';
+        });
+    });
+
+    it('returns the error shape when the theme list cannot be fetched', function () {
+        // Callers cannot try/catch this - failures arrive as a return value, and
+        // GoTurf keys off status === 'ERROR' to tell an outage apart from a
+        // deleted template.
+        Http::fake([
+            $this->apiUrl . '/invoice-themes' => Http::response([
+                'message' => 'Service unavailable',
+            ], 503),
+        ]);
+
+        $result = $this->invoices->getInvoiceThemes();
+
+        expect($result)->toHaveKey('status');
+        expect($result['status'])->toBe('ERROR');
+        expect($result['message'])->toBe('Service unavailable');
+        expect($result)->not->toHaveKey('themes');
+    });
+});

@@ -107,6 +107,7 @@ class SawfishIntegration
             'ensureValidToken' => Tokens::class,
 
             // Invoices resource methods
+            'getInvoiceThemes' => Invoices::class,
             'getInvoices' => Invoices::class,
             'getInvoiceByUuid' => Invoices::class,
             'getInvoicesByProviderUuids' => Invoices::class,
