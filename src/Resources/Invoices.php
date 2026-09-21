@@ -8,6 +8,16 @@ class Invoices extends SawfishIntegration
 {
 
     /**
+     * Method: GET.
+     */
+    public function getInvoiceThemes()
+    {
+        $response = $this->withTokenHeaders()->get('/invoice-themes');
+
+        return $this->getResponseData($response);
+    }
+
+    /**
      * Get invoices from Sawfish API
      * /invoices?uuids={{ string_split_by_commas }}
      * @return array

@@ -54,6 +54,7 @@ SawfishIntegration::getAccounts();
 SawfishIntegration::getClients();
 SawfishIntegration::createClient();
 SawfishIntegration::getClientByUuids();
+SawfishIntegration::findClients($name, $email); // name OR email
 SawfishIntegration::addContactPersons();
 SawfishIntegration::updateContactPersons();
 

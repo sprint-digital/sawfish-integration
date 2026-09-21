@@ -160,7 +160,7 @@ describe('refreshToken method', function () {
         $result = $this->tokens->refreshToken();
 
         // Assert the error response
-        expect($result)->toBe($errorResponse);
+        expect($result)->toBe($errorResponse + ['status_code' => 401, 'error_code' => null]);
         expect($result['status'])->toBe('ERROR');
         expect($result['message'])->toBe('Invalid refresh token');
 
@@ -227,7 +227,7 @@ describe('refreshToken method', function () {
         $result = $this->tokens->refreshToken();
 
         // Assert the error response
-        expect($result)->toBe($errorResponse);
+        expect($result)->toBe($errorResponse + ['status_code' => 401, 'error_code' => null]);
 
         // Verify HTTP was called with null refresh token
         Http::assertSent(function ($request) {
@@ -303,7 +303,7 @@ describe('revokeToken method', function () {
         $result = $this->tokens->revokeToken();
 
         // Assert the error response
-        expect($result)->toBe($errorResponse);
+        expect($result)->toBe($errorResponse + ['status_code' => 400, 'error_code' => null]);
 
         // Verify HTTP was called with null refresh token
         Http::assertSent(function ($request) {

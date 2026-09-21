@@ -79,6 +79,25 @@ class Clients extends SawfishIntegration
     }
 
     /**
+     * Find clients whose full name OR email matches (exact, case-insensitive). Empty filters
+     * are omitted. A 404 (nothing matched) comes back as the usual ERROR array with
+     * status_code 404.
+     *
+     * Method: GET.
+     */
+    public function findClients(?string $name = null, ?string $email = null, $perPage = 200, $page = 1)
+    {
+        $response = $this->withTokenHeaders()->get('/clients?' . http_build_query(array_filter([
+            'name' => $name,
+            'email' => $email,
+            'per_page' => $perPage,
+            'page' => $page,
+        ])));
+
+        return $this->getResponseData($response);
+    }
+
+    /**
      * Verify if a client with matching name, abn, or bsb + account number exists.
      * Method: GET.
      */

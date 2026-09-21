@@ -73,6 +73,8 @@ class SawfishIntegration
             return [
                 'status' => 'ERROR',
                 'message' => $message,
+                'status_code' => $response->status(),
+                'error_code' => $response->json('error_code'),
             ];
         }
 
@@ -94,6 +96,7 @@ class SawfishIntegration
             'getSuppliers' => Clients::class,
             'getClientsByProviderUuids' => Clients::class,
             'getClientByUuids' => Clients::class,
+            'findClients' => Clients::class,
             'verifyClient' => Clients::class,
             'createClient' => Clients::class,
             'updateClient' => Clients::class,
@@ -107,6 +110,7 @@ class SawfishIntegration
             'ensureValidToken' => Tokens::class,
 
             // Invoices resource methods
+            'getInvoiceThemes' => Invoices::class,
             'getInvoices' => Invoices::class,
             'getInvoiceByUuid' => Invoices::class,
             'getInvoicesByProviderUuids' => Invoices::class,

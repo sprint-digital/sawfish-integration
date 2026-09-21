@@ -997,3 +997,64 @@ describe('Client data structure validation', function () {
         expect($result['clients'][0]['is_customer'])->toBeFalse();
     });
 });
+
+describe('findClients method', function () {
+    it('sends name and email filters and returns the clients', function () {
+        Http::fake([
+            $this->apiUrl . '/clients*' => Http::response([
+                'data' => ['clients' => [['uuid' => 'client-uuid-1']]],
+                'pagination' => ['total' => 1],
+            ], 200),
+        ]);
+
+        $result = $this->clients->findClients('Will Tennent', 'will@example.com');
+
+        expect($result['data']['clients'][0]['uuid'])->toBe('client-uuid-1');
+        Http::assertSent(function ($request) {
+            parse_str(parse_url($request->url(), PHP_URL_QUERY), $query);
+
+            return $request->method() === 'GET'
+                && $query['name'] === 'Will Tennent'
+                && $query['email'] === 'will@example.com';
+        });
+    });
+
+    it('omits empty filters', function () {
+        Http::fake([$this->apiUrl . '/clients*' => Http::response(['data' => ['clients' => []], 'pagination' => []], 200)]);
+
+        $this->clients->findClients(null, 'will@example.com');
+
+        Http::assertSent(function ($request) {
+            parse_str(parse_url($request->url(), PHP_URL_QUERY), $query);
+
+            return !array_key_exists('name', $query) && $query['email'] === 'will@example.com';
+        });
+    });
+
+    it('reports a 404 with its status code', function () {
+        Http::fake([$this->apiUrl . '/clients*' => Http::response(['status' => 'ERROR', 'message' => 'No clients found'], 404)]);
+
+        $result = $this->clients->findClients('Nobody', null);
+
+        expect($result['status'])->toBe('ERROR')
+            ->and($result['status_code'])->toBe(404);
+    });
+});
+
+describe('error details', function () {
+    it('exposes the HTTP status and error_code of a failed create', function () {
+        Http::fake([
+            $this->apiUrl . '/clients' => Http::response([
+                'message' => 'A client with the same full name already exists',
+                'error_code' => 'duplicate_client_name',
+            ], 422),
+        ]);
+
+        $result = $this->clients->createClient(['name' => 'Will Tennent']);
+
+        expect($result['status'])->toBe('ERROR')
+            ->and($result['message'])->toBe('A client with the same full name already exists')
+            ->and($result['status_code'])->toBe(422)
+            ->and($result['error_code'])->toBe('duplicate_client_name');
+    });
+});
