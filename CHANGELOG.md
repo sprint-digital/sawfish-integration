@@ -2,6 +2,19 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v1.5.0 Client lookup and error details - 2026-09-22
+
+### Changelog
+
+#### [1.5.0] – 2026-09-22
+
+##### Added
+
+- New endpoint: `findClients($name, $email)` — clients whose full name OR email matches.
+- Error responses (`['status' => 'ERROR', ...]`) now also carry `status_code` (HTTP status)
+  and `error_code` (Sawfish's machine-readable code, or null), so callers can tell a 422
+  validation error from a 5xx. Existing `status` / `message` keys are unchanged.
+
 ## v1.4.3 Invoice themes endpoint - 2026-09-10
 
 ### Changelog
