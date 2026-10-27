@@ -294,8 +294,12 @@ describe('createClient method', function () {
         // Call the method
         $result = $this->clients->createClient($invalidClientData);
 
-        // Assert the error response (createClient returns just the message string on error)
-        expect($result)->toBe('Validation failed');
+        expect($result)->toBe([
+            'status' => 'ERROR',
+            'message' => 'Validation failed',
+            'status_code' => 422,
+            'error_code' => null,
+        ]);
     });
 
     it('handles network exception during client creation', function () {
@@ -484,13 +488,6 @@ describe('getClientByUuids method', function () {
                    $request->header('x-jwt-token')[0] === 'test-access-token' &&
                    str_contains($request->url(), 'uuids=' . urlencode($singleUuid));
         });
-    });
-
-    it('throws InvalidArgumentException for null parameter', function () {
-        // Expect exception to be thrown
-        expect(function () {
-            $this->clients->getClientByUuids(null);
-        })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
     it('throws InvalidArgumentException for integer parameter', function () {

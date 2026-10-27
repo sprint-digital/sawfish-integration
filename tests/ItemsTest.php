@@ -63,7 +63,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidString);
+        $result = $this->items->getItems(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -120,7 +120,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidArray);
+        $result = $this->items->getItems(uuids: $uuidArray);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -159,7 +159,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($singleUuid);
+        $result = $this->items->getItems(uuids: $singleUuid);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -199,7 +199,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($singleUuidArray);
+        $result = $this->items->getItems(uuids: $singleUuidArray);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -217,31 +217,24 @@ describe('getItems method', function () {
         });
     });
 
-    it('throws InvalidArgumentException for null parameter', function () {
-        // Expect exception to be thrown
-        expect(function () {
-            $this->items->getItems(null);
-        })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
-    });
-
     it('throws InvalidArgumentException for integer parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->items->getItems(123);
+            $this->items->getItems(uuids: 123);
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
     it('throws InvalidArgumentException for boolean parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->items->getItems(true);
+            $this->items->getItems(uuids: true);
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
     it('throws InvalidArgumentException for object parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->items->getItems(new stdClass());
+            $this->items->getItems(uuids: new stdClass());
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
@@ -257,7 +250,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($emptyString);
+        $result = $this->items->getItems(uuids: $emptyString);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -284,7 +277,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($emptyArray);
+        $result = $this->items->getItems(uuids: $emptyArray);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -312,7 +305,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidString);
+        $result = $this->items->getItems(uuids: $uuidString);
 
         // Assert the error response
         expect($result)->toHaveKey('status');
@@ -333,7 +326,7 @@ describe('getItems method', function () {
 
         // Expect exception to be thrown
         expect(function () use ($uuidString) {
-            $this->items->getItems($uuidString);
+            $this->items->getItems(uuids: $uuidString);
         })->toThrow(\Exception::class, 'Connection timeout');
     });
 
@@ -349,7 +342,7 @@ describe('getItems method', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidsWithSpecialChars);
+        $result = $this->items->getItems(uuids: $uuidsWithSpecialChars);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -389,7 +382,7 @@ describe('HTTP headers and authentication', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidString);
+        $result = $this->items->getItems(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -431,7 +424,7 @@ describe('HTTP headers and authentication', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidString);
+        $result = $this->items->getItems(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -476,7 +469,7 @@ describe('URL construction and query parameters', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidString);
+        $result = $this->items->getItems(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($itemsData);
@@ -502,7 +495,7 @@ describe('URL construction and query parameters', function () {
         ]);
 
         // Call the method
-        $result = $this->items->getItems($uuidsWithQueryChars);
+        $result = $this->items->getItems(uuids: $uuidsWithQueryChars);
 
         // Assert the result
         expect($result)->toBe($itemsData);

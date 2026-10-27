@@ -66,7 +66,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -126,7 +126,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidArray);
+        $result = $this->accounts->getAccounts(uuids: $uuidArray);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -177,7 +177,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString, $type);
+        $result = $this->accounts->getAccounts(uuids: $uuidString, type: $type);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -228,7 +228,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts(null, $type);
+        $result = $this->accounts->getAccounts(uuids: null, type: $type);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -269,7 +269,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($singleUuid);
+        $result = $this->accounts->getAccounts(uuids: $singleUuid);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -310,7 +310,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($singleUuidArray);
+        $result = $this->accounts->getAccounts(uuids: $singleUuidArray);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -331,21 +331,21 @@ describe('getAccounts method', function () {
     it('throws InvalidArgumentException for integer parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->accounts->getAccounts(123);
+            $this->accounts->getAccounts(uuids: 123);
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
     it('throws InvalidArgumentException for boolean parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->accounts->getAccounts(true);
+            $this->accounts->getAccounts(uuids: true);
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
     it('throws InvalidArgumentException for object parameter', function () {
         // Expect exception to be thrown
         expect(function () {
-            $this->accounts->getAccounts(new stdClass());
+            $this->accounts->getAccounts(uuids: new stdClass());
         })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
     });
 
@@ -361,7 +361,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($emptyString);
+        $result = $this->accounts->getAccounts(uuids: $emptyString);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -388,7 +388,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($emptyArray);
+        $result = $this->accounts->getAccounts(uuids: $emptyArray);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -416,7 +416,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the error response
         expect($result)->toHaveKey('status');
@@ -437,7 +437,7 @@ describe('getAccounts method', function () {
 
         // Expect exception to be thrown
         expect(function () use ($uuidString) {
-            $this->accounts->getAccounts($uuidString);
+            $this->accounts->getAccounts(uuids: $uuidString);
         })->toThrow(\Exception::class, 'Connection timeout');
     });
 
@@ -453,7 +453,7 @@ describe('getAccounts method', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidsWithSpecialChars);
+        $result = $this->accounts->getAccounts(uuids: $uuidsWithSpecialChars);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -494,7 +494,7 @@ describe('HTTP headers and authentication', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -537,7 +537,7 @@ describe('HTTP headers and authentication', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -585,7 +585,7 @@ describe('URL construction and query parameters', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString, $type);
+        $result = $this->accounts->getAccounts(uuids: $uuidString, type: $type);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -612,7 +612,7 @@ describe('URL construction and query parameters', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidsWithQueryChars);
+        $result = $this->accounts->getAccounts(uuids: $uuidsWithQueryChars);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -641,7 +641,7 @@ describe('URL construction and query parameters', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString, $typeWithSpecialChars);
+        $result = $this->accounts->getAccounts(uuids: $uuidString, type: $typeWithSpecialChars);
 
         // Assert the result
         expect($result)->toBe($accountsData);
@@ -679,7 +679,7 @@ describe('Account data structure validation', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the result structure
         expect($result)->toBe($accountsData);
@@ -729,7 +729,7 @@ describe('Account data structure validation', function () {
         ]);
 
         // Call the method
-        $result = $this->accounts->getAccounts($uuidString);
+        $result = $this->accounts->getAccounts(uuids: $uuidString);
 
         // Assert the result
         expect($result)->toBe($accountsData);
