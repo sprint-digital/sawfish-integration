@@ -2,6 +2,10 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v13.0.1 - 2026-10-27
+
+Bump to laravel 13 support
+
 ## v1.5.0 Client lookup and error details - 2026-09-22
 
 ### Changelog
