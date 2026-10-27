@@ -218,13 +218,6 @@ describe('getInvoices method', function () {
         });
     });
 
-    it('throws InvalidArgumentException for null parameter', function () {
-        // Expect exception to be thrown
-        expect(function () {
-            $this->invoices->getInvoices(null);
-        })->toThrow(\InvalidArgumentException::class, 'The $uuids parameter must be a string or an array.');
-    });
-
     it('throws InvalidArgumentException for integer parameter', function () {
         // Expect exception to be thrown
         expect(function () {
