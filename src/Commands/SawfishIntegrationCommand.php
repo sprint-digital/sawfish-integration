@@ -3,7 +3,6 @@
 namespace SprintDigital\SawfishIntegration\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as SawfishIntegrationModel;
 use SprintDigital\SawfishIntegration\SawfishIntegration;
 
@@ -25,10 +24,12 @@ class SawfishIntegrationCommand extends Command
                 'create_sawfish_webhook_table.php',
             ];
             $currentDate = date('Y_m_d_His');
+            $migrationPaths = [];
 
             foreach($migrations as $migration) {
-                $stubPath = base_path('vendor/sprint-digital/sawfish-integration/database/migrations/' . $migration . '.stub');
-                $migrationPath = 'database/migrations/'.$currentDate.'_'.$migration;
+                // Resolve paths absolutely so the command works from any cwd (e.g. Forge zero-downtime `current` symlink)
+                $stubPath = __DIR__ . '/../../database/migrations/' . $migration . '.stub';
+                $migrationPath = database_path('migrations/' . $currentDate . '_' . $migration);
                 if (!file_exists($stubPath)) {
                     $this->error('Stub file not found: ' . $stubPath);
                     return self::FAILURE;
@@ -38,11 +39,12 @@ class SawfishIntegrationCommand extends Command
                 // check here if file exists file name is like create_sawfish_integration_table.php
 
                 // loop files under database/migrations check if filenam like $migration, copy the file if not exists
-                $files = glob('database/migrations/*.php');
+                $files = glob(database_path('migrations/*.php'));
                 $found = false;
                 foreach($files as $file) {
                     if (strpos($file, $migration) !== false) {
                         $found = true;
+                        $migrationPaths[] = $file;
                         break;
                     }
                 }
@@ -52,10 +54,21 @@ class SawfishIntegrationCommand extends Command
                         $this->error('Failed to copy stub file to migrations directory');
                         return self::FAILURE;
                     }
+                    $migrationPaths[] = $migrationPath;
                 }
             }
 
-            Artisan::call('migrate');
+            // --force: skip production confirm prompt (Artisan::call buffered it, so the command hung silently)
+            // --path: only run this package's migrations, not every pending app migration
+            $exitCode = $this->call('migrate', [
+                '--force' => true,
+                '--path' => $migrationPaths,
+                '--realpath' => true,
+            ]);
+            if ($exitCode !== self::SUCCESS) {
+                $this->error('Migration failed with exit code ' . $exitCode);
+                return self::FAILURE;
+            }
             $this->info('Migration completed successfully!');
         } catch (\Exception $e) {
             $this->error('Migration failed: ' . $e->getMessage());
