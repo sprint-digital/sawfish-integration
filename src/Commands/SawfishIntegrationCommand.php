@@ -3,18 +3,27 @@
 namespace SprintDigital\SawfishIntegration\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use SprintDigital\SawfishIntegration\Models\SawfishIntegration as SawfishIntegrationModel;
 use SprintDigital\SawfishIntegration\SawfishIntegration;
 
 class SawfishIntegrationCommand extends Command
 {
-    public $signature = 'sawfish:integrate';
+    use ConfirmableTrait;
+
+    public $signature = 'sawfish:integrate
+                        {--force : Force the migrations to run when in production}';
 
     public $description = 'Migrate sawfish_integrations table and configure Sawfish credentials';
 
     public function handle(): int
     {
         $this->info('Setting up Sawfish Integration...');
+
+        // Ask before migrating in production (skipped with --force)
+        if (! $this->confirmToProceed()) {
+            return self::FAILURE;
+        }
 
         // Run the migration
         $this->info('Running migration tables...');
@@ -58,7 +67,7 @@ class SawfishIntegrationCommand extends Command
                 }
             }
 
-            // --force: skip production confirm prompt (Artisan::call buffered it, so the command hung silently)
+            // --force: already confirmed above; avoids migrate's own production prompt
             // --path: only run this package's migrations, not every pending app migration
             $exitCode = $this->call('migrate', [
                 '--force' => true,

@@ -2,6 +2,28 @@
 
 All notable changes to `sawfish-integration` will be documented in this file.
 
+## v13.0.2 Zero-downtime install fix - 2026-10-28
+
+### Changelog
+
+#### [13.0.2] – 2026-10-28
+
+##### Fixed
+
+- `sawfish:integrate` no longer hangs silently in production: the production confirmation prompt
+  is now visible, and migration output is shown.
+- Command works from a zero-downtime release folder (e.g. Forge `/home/forge/{site}/current`):
+  stub and migration paths are resolved absolutely instead of relative to `vendor/` or the cwd.
+
+##### Added
+
+- `--force` option on `sawfish:integrate` to skip the production confirmation prompt.
+
+##### Changed
+
+- `sawfish:integrate` only runs the package's own migrations (`--path`), not every pending app migration.
+- README: documented zero-downtime (Forge) setup.
+
 ## v13.0.1 - 2026-10-27
 
 Bump to laravel 13 support

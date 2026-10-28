@@ -46,7 +46,7 @@ cd /home/forge/{site}/current
 php artisan sawfish:integrate
 ```
 
-The command runs its migrations with `--force`, so it does not stop at the production confirmation prompt. Migration files copied on the server only exist in that release. Publish and commit them locally (`php artisan vendor:publish --tag=sawfish-integration-migrations`) if you want them in your repository. Re-running the command after a later deploy is safe, because the migrations skip tables that already exist.
+In production the command asks for confirmation before running its migrations. Pass `--force` to skip the prompt (e.g. in deploy scripts). Migration files copied on the server only exist in that release. Publish and commit them locally (`php artisan vendor:publish --tag=sawfish-integration-migrations`) if you want them in your repository. Re-running the command after a later deploy is safe, because the migrations skip tables that already exist.
 
 ## Usage
 
